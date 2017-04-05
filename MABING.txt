@@ -1,0 +1,43 @@
+??????????:
+     /root/pastedeploy
+????:
+	apt-get install python-pytest
+	pip install pytest-cov
+    cd /root/pastedeploy
+	py.test tests
+    
+===??????setuptools??????????zip???
+    ??setup.py??
+    zip_safe=False,
+---
+/usr/local/lib/python2.7/dist-packages/FakeApp-1.0-py2.7.egg??????...
+
+root@ubuntu:/usr/local/lib/python2.7/dist-packages# file FakeApp-1.0-py2.7.egg 
+FakeApp-1.0-py2.7.egg: Zip archive data, at least v2.0 to extract
+---
+PasteDeploy-1.5.2-py2.7.egg?????
+
+root@ubuntu:/usr/local/lib/python2.7/dist-packages# cd PasteDeploy-1.5.2-py2.7.egg/
+root@ubuntu:/usr/local/lib/python2.7/dist-packages/PasteDeploy-1.5.2-py2.7.egg#
+===
+
+===loadapp('config:sample_configs/basic_app.ini', relative_to=here) ??????, ??????name
+   ????????2?????
+    1. loadapp('config:sample_configs/basic_app.ini#main', relative_to=here)
+    2. loadapp('config:sample_configs/basic_app.ini', relative_to=here, name="main")
+   name??main
+   
+   ?????????seciont???????/usr/local/lib/python2.7/dist-packages/FakeApp-1.0-py2.7.egg/EGG-INFO/engry-points.txt???????
+    ?????section
+    [application:main]
+    use = egg:FakeApp#basic_app  #(1)basic_app?(2)???
+   
+   engry-points.txt:
+    [paste.app_factory]                                                                                                                                                   
+     basic_app=fakeapp.apps:make_basic_app      #(2)basic_app?(1)???                                                                           
+     other=fakeapp.apps:make_basic_app2                                            
+     configed=fakeapp.configapps:SimpleApp.make_app
+     
+    
+    
+   

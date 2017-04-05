@@ -4,7 +4,7 @@ from tests.fixture import *
 import fakeapp.apps
 
 
-here = os.path.dirname(__file__)
+here = os.path.dirname(__file__)  #mabing: /root/pastedeploy/tests
 
 
 def test_main():
@@ -17,7 +17,7 @@ def test_main():
     app = loadapp('config:sample_configs/basic_app.ini',
                   relative_to=here, name='main')
     assert app is fakeapp.apps.basic_app
-    app = loadapp('config:sample_configs/basic_app.ini#ignored',
+    app = loadapp('config:sample_configs/basic_app.ini#ignored', #mabing: name覆盖了ignored,没有name覆盖的话会报错!
                   relative_to=here, name='main')
     assert app is fakeapp.apps.basic_app
 
