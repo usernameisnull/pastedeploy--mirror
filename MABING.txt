@@ -1,21 +1,21 @@
-??????????:
+﻿在环境上的位置:
      /root/pastedeploy
-????:
+跑测试代码:
 	apt-get install python-pytest
 	pip install pytest-cov
     cd /root/pastedeploy
 	py.test tests
     
-===??????setuptools??????????zip???
-    ??setup.py??
+===setuptools里如何控制python setup.py install生成zip格式的单个文件还是目录
+    setup.py里的这一句:
     zip_safe=False,
 ---
-/usr/local/lib/python2.7/dist-packages/FakeApp-1.0-py2.7.egg??????...
+/usr/local/lib/python2.7/dist-packages/FakeApp-1.0-py2.7.egg zip格式的文件
 
 root@ubuntu:/usr/local/lib/python2.7/dist-packages# file FakeApp-1.0-py2.7.egg 
 FakeApp-1.0-py2.7.egg: Zip archive data, at least v2.0 to extract
 ---
-PasteDeploy-1.5.2-py2.7.egg?????
+PasteDeploy-1.5.2-py2.7.egg目录:
 
 root@ubuntu:/usr/local/lib/python2.7/dist-packages# cd PasteDeploy-1.5.2-py2.7.egg/
 root@ubuntu:/usr/local/lib/python2.7/dist-packages/PasteDeploy-1.5.2-py2.7.egg#
@@ -30,13 +30,16 @@ root@ubuntu:/usr/local/lib/python2.7/dist-packages/PasteDeploy-1.5.2-py2.7.egg#
    ?????????seciont???????/usr/local/lib/python2.7/dist-packages/FakeApp-1.0-py2.7.egg/EGG-INFO/engry-points.txt???????
     ?????section
     [application:main]
-    use = egg:FakeApp#basic_app  #(1)basic_app?(2)???
+    use = egg:FakeApp#basic_app  #(1): 这里的basic_app与(2)保持一致
    
    engry-points.txt:
     [paste.app_factory]                                                                                                                                                   
-     basic_app=fakeapp.apps:make_basic_app      #(2)basic_app?(1)???                                                                           
+     basic_app=fakeapp.apps:make_basic_app      #(2): "="号前面的basic_app与(1)保持一致                                                                          
      other=fakeapp.apps:make_basic_app2                                            
      configed=fakeapp.configapps:SimpleApp.make_app
+===
+
+===当使用ConfigLoader的时候怎样从EGG-INFO/engry-points.txt得到对应的函数
      
     
     
