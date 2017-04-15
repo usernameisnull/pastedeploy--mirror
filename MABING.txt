@@ -40,7 +40,35 @@ root@ubuntu:/usr/local/lib/python2.7/dist-packages/PasteDeploy-1.5.2-py2.7.egg#
 ===
 
 ===当使用ConfigLoader的时候怎样从EGG-INFO/engry-points.txt得到对应的函数
+     大致的流程是这样的
+     以tests/mabing.py为例:
+        from paste.deploy import loadapp                                                                                             
+        import os                                                                           
+        here = "."                                                                          
+        result = loadapp('config:sample_configs/basic_app.ini', relative_to=here)
+        
+     这个ini对应的section如下(没有名字的时候,默认为main):
+        [application:main]
+        use = egg:FakeApp#basic_app
+        
+     paste.deploy.loadapp->loadobj->loadcontext->_loadconfig->ConfigLoader.getcontext
+     loadobj里的create()也就是用ConfigLoader.getcontext返回的context的create<-laodcontext<-_loadconfig<-
      
+     ConfigLoader.getcontext和loadcontext都跑了2次
+     278 uri = config:sample_configs/basic_app.ini
+     406 name = main
+     406 name = egg:FakeApp#basic_app1
+     278 uri = egg:FakeApp#basic_app1--> 从这里调了EggLoader
+     456: context = <class 'paste.deploy.loadwsgi.LoaderContext'>
+     471: context = <class 'paste.deploy.loadwsgi.LoaderContext'>
+     272,context = <class 'paste.deploy.loadwsgi.LoaderContext'>
+     <function basic_app at 0x7f8aec1c0578> <type 'function'>
+     def basic_app(environ, start_response):
+        return simple_app('basic app', environ, start_response
+        
+    最终的create是调用了_APP.invoke
+        
+    
     
     
    
